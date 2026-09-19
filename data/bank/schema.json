@@ -1,0 +1,1108 @@
+{
+  "scene": "bank",
+  "generated_from": "bank.sqlite",
+  "table_count": 15,
+  "tables": {
+    "branches": [
+      {
+        "name": "branch_id",
+        "type": "integer",
+        "pk": true,
+        "notnull": false,
+        "comment": "机构ID 主键",
+        "cn": "机构ID 主键"
+      },
+      {
+        "name": "branch_name",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "机构名称",
+        "cn": "机构名称"
+      },
+      {
+        "name": "branch_level",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "层级 1总行/2分行/3支行",
+        "cn": "层级 1总行/2分行/3支行"
+      },
+      {
+        "name": "parent_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "上级机构ID（自关联 branches.branch_id，总行为空）",
+        "cn": "上级机构ID"
+      },
+      {
+        "name": "city",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "所在城市",
+        "cn": "所在城市"
+      },
+      {
+        "name": "branch_type",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "机构类型 总行/分行/支行",
+        "cn": "机构类型 总行/分行/支行"
+      },
+      {
+        "name": "open_date",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "机构开业日期",
+        "cn": "机构开业日期"
+      },
+      {
+        "name": "status",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "状态 正常/停业",
+        "cn": "状态 正常/停业"
+      }
+    ],
+    "employees": [
+      {
+        "name": "emp_id",
+        "type": "integer",
+        "pk": true,
+        "notnull": false,
+        "comment": "员工ID 主键",
+        "cn": "员工ID 主键"
+      },
+      {
+        "name": "emp_no",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "员工工号",
+        "cn": "员工工号"
+      },
+      {
+        "name": "emp_name",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "员工姓名",
+        "cn": "员工姓名"
+      },
+      {
+        "name": "branch_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "所属机构ID",
+        "cn": "所属机构ID"
+      },
+      {
+        "name": "position",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "岗位 柜员/客户经理/信贷审批等",
+        "cn": "岗位 柜员/客户经理/信贷审批等"
+      },
+      {
+        "name": "is_manager",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "是否客户经理条线 1是/0否",
+        "cn": "是否客户经理条线 1是/0否"
+      },
+      {
+        "name": "hire_date",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "入职日期",
+        "cn": "入职日期"
+      },
+      {
+        "name": "status",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "状态 在职/离职",
+        "cn": "状态 在职/离职"
+      }
+    ],
+    "customers": [
+      {
+        "name": "customer_id",
+        "type": "integer",
+        "pk": true,
+        "notnull": false,
+        "comment": "客户ID 主键",
+        "cn": "客户ID 主键"
+      },
+      {
+        "name": "cust_no",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "客户号（业务系统唯一编号）",
+        "cn": "客户号"
+      },
+      {
+        "name": "cust_name",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "客户名称（个人姓名/企业名称）",
+        "cn": "客户名称"
+      },
+      {
+        "name": "cust_type",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "客户类型 个人/对公",
+        "cn": "客户类型 个人/对公"
+      },
+      {
+        "name": "id_type",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "证件类型 身份证/护照/统一社会信用代码",
+        "cn": "证件类型 身份证/护照/统一社会信用代码"
+      },
+      {
+        "name": "id_no",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "证件号码（脱敏展示）",
+        "cn": "证件号码"
+      },
+      {
+        "name": "risk_level",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "风险等级 高/中/低",
+        "cn": "风险等级 高/中/低"
+      },
+      {
+        "name": "open_branch_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "开户机构ID",
+        "cn": "开户机构ID"
+      },
+      {
+        "name": "open_date",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "开户日期",
+        "cn": "开户日期"
+      },
+      {
+        "name": "aum",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "AUM 管理资产规模（元）",
+        "cn": "AUM 管理资产规模"
+      },
+      {
+        "name": "industry",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "所属行业（对公客户）",
+        "cn": "所属行业"
+      },
+      {
+        "name": "status",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "客户状态 正常/冻结/销户",
+        "cn": "客户状态 正常/冻结/销户"
+      }
+    ],
+    "accounts": [
+      {
+        "name": "account_id",
+        "type": "integer",
+        "pk": true,
+        "notnull": false,
+        "comment": "账户ID 主键",
+        "cn": "账户ID 主键"
+      },
+      {
+        "name": "account_no",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "账号",
+        "cn": "账号"
+      },
+      {
+        "name": "customer_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "所属客户ID",
+        "cn": "所属客户ID"
+      },
+      {
+        "name": "account_type",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "账户类型 活期/定期/对公结算",
+        "cn": "账户类型 活期/定期/对公结算"
+      },
+      {
+        "name": "currency",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "币种 CNY/USD/HKD/EUR",
+        "cn": "币种 CNY/USD/HKD/EUR"
+      },
+      {
+        "name": "balance",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "账户余额（元）",
+        "cn": "账户余额"
+      },
+      {
+        "name": "annual_rate",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "年利率（%）",
+        "cn": "年利率"
+      },
+      {
+        "name": "open_date",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "开户日期",
+        "cn": "开户日期"
+      },
+      {
+        "name": "status",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "账户状态 正常/冻结/销户",
+        "cn": "账户状态 正常/冻结/销户"
+      },
+      {
+        "name": "branch_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "所属机构ID",
+        "cn": "所属机构ID"
+      }
+    ],
+    "transactions": [
+      {
+        "name": "txn_id",
+        "type": "integer",
+        "pk": true,
+        "notnull": false,
+        "comment": "流水ID 主键",
+        "cn": "流水ID 主键"
+      },
+      {
+        "name": "account_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "账户ID",
+        "cn": "账户ID"
+      },
+      {
+        "name": "txn_time",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "交易时间（含时分秒）",
+        "cn": "交易时间"
+      },
+      {
+        "name": "value_date",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "value_date 记账日期（可能因节假日顺延晚于交易日）",
+        "cn": "value_date 记账日期"
+      },
+      {
+        "name": "direction",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "借贷方向 D借方(出账)/C贷方(入账)",
+        "cn": "借贷方向 D借方"
+      },
+      {
+        "name": "amount",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "交易金额（元）",
+        "cn": "交易金额"
+      },
+      {
+        "name": "balance_after",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "balance_after 交易后余额",
+        "cn": "balance_after 交易后余额"
+      },
+      {
+        "name": "txn_type",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "交易类型 转账/消费/取现/工资代发/缴费/理财申购",
+        "cn": "交易类型 转账/消费/取现/工资代发/缴费/理财"
+      },
+      {
+        "name": "channel",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "交易渠道 柜面/网银/手机银行/ATM/POS/第三方",
+        "cn": "交易渠道 柜面/网银/手机银行/ATM/POS/"
+      },
+      {
+        "name": "counterparty_name",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "counterparty_name 对手方名称",
+        "cn": "counterparty_name 对手方名称"
+      },
+      {
+        "name": "status",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "交易状态 成功/失败/冲正",
+        "cn": "交易状态 成功/失败/冲正"
+      }
+    ],
+    "loans": [
+      {
+        "name": "loan_id",
+        "type": "integer",
+        "pk": true,
+        "notnull": false,
+        "comment": "贷款ID 主键",
+        "cn": "贷款ID 主键"
+      },
+      {
+        "name": "loan_no",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "贷款合同号",
+        "cn": "贷款合同号"
+      },
+      {
+        "name": "customer_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "借款人客户ID",
+        "cn": "借款人客户ID"
+      },
+      {
+        "name": "loan_type",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "贷款品种 房贷/经营贷/消费贷/信用贷",
+        "cn": "贷款品种 房贷/经营贷/消费贷/信用贷"
+      },
+      {
+        "name": "principal",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "合同本金（元）",
+        "cn": "合同本金"
+      },
+      {
+        "name": "outstanding",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "贷款余额（未偿本金，结清应为 0）",
+        "cn": "贷款余额"
+      },
+      {
+        "name": "annual_rate",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "年利率（%）",
+        "cn": "年利率"
+      },
+      {
+        "name": "disbursement_date",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "放款日期",
+        "cn": "放款日期"
+      },
+      {
+        "name": "maturity_date",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "到期日期",
+        "cn": "到期日期"
+      },
+      {
+        "name": "term_months",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "贷款期限（月）",
+        "cn": "贷款期限"
+      },
+      {
+        "name": "repay_method",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "还款方式 等额本息/等额本金/先息后本",
+        "cn": "还款方式 等额本息/等额本金/先息后本"
+      },
+      {
+        "name": "status",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "贷款状态 正常/逾期/结清/核销",
+        "cn": "贷款状态 正常/逾期/结清/核销"
+      },
+      {
+        "name": "branch_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "经办机构ID",
+        "cn": "经办机构ID"
+      },
+      {
+        "name": "manager_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "客户经理员工ID",
+        "cn": "客户经理员工ID"
+      }
+    ],
+    "loan_repayments": [
+      {
+        "name": "repay_id",
+        "type": "integer",
+        "pk": true,
+        "notnull": false,
+        "comment": "还款记录ID 主键",
+        "cn": "还款记录ID 主键"
+      },
+      {
+        "name": "loan_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "贷款ID",
+        "cn": "贷款ID"
+      },
+      {
+        "name": "period_no",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "期次（第几期）",
+        "cn": "期次"
+      },
+      {
+        "name": "due_date",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "应还日期",
+        "cn": "应还日期"
+      },
+      {
+        "name": "due_principal",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "应还本金（元）",
+        "cn": "应还本金"
+      },
+      {
+        "name": "due_interest",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "应还利息（元）",
+        "cn": "应还利息"
+      },
+      {
+        "name": "due_total",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "应还合计（本金+利息）",
+        "cn": "应还合计"
+      },
+      {
+        "name": "paid_date",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "实还日期（未还为 NULL）",
+        "cn": "实还日期"
+      },
+      {
+        "name": "paid_amount",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "实还金额（元）",
+        "cn": "实还金额"
+      },
+      {
+        "name": "status",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "状态 已还/部分还款/逾期/未到期",
+        "cn": "状态 已还/部分还款/逾期/未到期"
+      }
+    ],
+    "overdue_records": [
+      {
+        "name": "overdue_id",
+        "type": "integer",
+        "pk": true,
+        "notnull": false,
+        "comment": "记录ID 主键",
+        "cn": "记录ID 主键"
+      },
+      {
+        "name": "loan_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "贷款ID",
+        "cn": "贷款ID"
+      },
+      {
+        "name": "stat_date",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "统计日期（月末快照）",
+        "cn": "统计日期"
+      },
+      {
+        "name": "dpd",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "dpd 逾期天数 Days Past Due",
+        "cn": "dpd 逾期天数 Days Past Due"
+      },
+      {
+        "name": "overdue_amount",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "逾期金额（元）",
+        "cn": "逾期金额"
+      },
+      {
+        "name": "classification",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "五级分类 正常/关注/次级/可疑/损失",
+        "cn": "五级分类 正常/关注/次级/可疑/损失"
+      },
+      {
+        "name": "is_manual_adjusted",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "是否人工调整过分类 1是/0否",
+        "cn": "是否人工调整过分类 1是/0否"
+      }
+    ],
+    "credit_cards": [
+      {
+        "name": "card_id",
+        "type": "integer",
+        "pk": true,
+        "notnull": false,
+        "comment": "信用卡ID 主键",
+        "cn": "信用卡ID 主键"
+      },
+      {
+        "name": "card_no",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "卡号（脱敏）",
+        "cn": "卡号"
+      },
+      {
+        "name": "customer_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "持卡客户ID",
+        "cn": "持卡客户ID"
+      },
+      {
+        "name": "credit_limit",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "授信额度（元）",
+        "cn": "授信额度"
+      },
+      {
+        "name": "used_limit",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "已用额度（元）",
+        "cn": "已用额度"
+      },
+      {
+        "name": "bill_day",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "账单日（每月几号）",
+        "cn": "账单日"
+      },
+      {
+        "name": "due_day",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "到期还款日（每月几号）",
+        "cn": "到期还款日"
+      },
+      {
+        "name": "status",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "卡状态 正常/冻结/销户",
+        "cn": "卡状态 正常/冻结/销户"
+      },
+      {
+        "name": "open_date",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "发卡日期",
+        "cn": "发卡日期"
+      }
+    ],
+    "card_statements": [
+      {
+        "name": "statement_id",
+        "type": "integer",
+        "pk": true,
+        "notnull": false,
+        "comment": "账单ID 主键",
+        "cn": "账单ID 主键"
+      },
+      {
+        "name": "card_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "信用卡ID",
+        "cn": "信用卡ID"
+      },
+      {
+        "name": "period",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "账期（YYYYMM，如 202603）",
+        "cn": "账期"
+      },
+      {
+        "name": "statement_amount",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "账单金额（本期应还）",
+        "cn": "账单金额"
+      },
+      {
+        "name": "min_payment",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "最低还款额",
+        "cn": "最低还款额"
+      },
+      {
+        "name": "repaid_amount",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "已还金额（大于账单金额即为溢缴款）",
+        "cn": "已还金额"
+      },
+      {
+        "name": "status",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "账单状态 已结清/部分还款/未还款/逾期",
+        "cn": "账单状态 已结清/部分还款/未还款/逾期"
+      }
+    ],
+    "card_repayments": [
+      {
+        "name": "repay_id",
+        "type": "integer",
+        "pk": true,
+        "notnull": false,
+        "comment": "还款ID 主键",
+        "cn": "还款ID 主键"
+      },
+      {
+        "name": "card_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "信用卡ID",
+        "cn": "信用卡ID"
+      },
+      {
+        "name": "statement_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "所属账单ID",
+        "cn": "所属账单ID"
+      },
+      {
+        "name": "repay_date",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "还款日期",
+        "cn": "还款日期"
+      },
+      {
+        "name": "repay_amount",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "还款金额（元）",
+        "cn": "还款金额"
+      },
+      {
+        "name": "channel",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "还款渠道 柜面/手机银行/第三方/自动扣款",
+        "cn": "还款渠道 柜面/手机银行/第三方/自动扣款"
+      }
+    ],
+    "deposits_daily": [
+      {
+        "name": "account_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "账户ID",
+        "cn": "账户ID"
+      },
+      {
+        "name": "data_date",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "数据日期（日终）",
+        "cn": "数据日期"
+      },
+      {
+        "name": "eod_balance",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "日终余额（元）",
+        "cn": "日终余额"
+      }
+    ],
+    "wealth_products": [
+      {
+        "name": "product_id",
+        "type": "integer",
+        "pk": true,
+        "notnull": false,
+        "comment": "产品ID 主键",
+        "cn": "产品ID 主键"
+      },
+      {
+        "name": "product_name",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "产品名称",
+        "cn": "产品名称"
+      },
+      {
+        "name": "risk_level",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "风险等级 低/中低/中/中高/高",
+        "cn": "风险等级 低/中低/中/中高/高"
+      },
+      {
+        "name": "term_days",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "产品期限（天）",
+        "cn": "产品期限"
+      },
+      {
+        "name": "expected_annual_return",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "预期年化收益率（%）",
+        "cn": "预期年化收益率"
+      },
+      {
+        "name": "min_amount",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "起购金额（元）",
+        "cn": "起购金额"
+      },
+      {
+        "name": "status",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "产品状态 在售/停售",
+        "cn": "产品状态 在售/停售"
+      }
+    ],
+    "wealth_holdings": [
+      {
+        "name": "holding_id",
+        "type": "integer",
+        "pk": true,
+        "notnull": false,
+        "comment": "持仓ID 主键",
+        "cn": "持仓ID 主键"
+      },
+      {
+        "name": "customer_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "客户ID",
+        "cn": "客户ID"
+      },
+      {
+        "name": "product_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "理财产品ID",
+        "cn": "理财产品ID"
+      },
+      {
+        "name": "amount",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "持仓金额（元）",
+        "cn": "持仓金额"
+      },
+      {
+        "name": "buy_date",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "买入日期",
+        "cn": "买入日期"
+      },
+      {
+        "name": "redeem_date",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "赎回日期（NULL=持有中）",
+        "cn": "赎回日期"
+      }
+    ],
+    "aml_alerts": [
+      {
+        "name": "alert_id",
+        "type": "integer",
+        "pk": true,
+        "notnull": false,
+        "comment": "预警ID 主键",
+        "cn": "预警ID 主键"
+      },
+      {
+        "name": "customer_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "客户ID",
+        "cn": "客户ID"
+      },
+      {
+        "name": "rule_code",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "规则码 R01短时多笔等额取现/R02大额现金/R03分散转入集中转出/R04夜间异常",
+        "cn": "规则码 R01短时多笔等额取现/R02大额现金/"
+      },
+      {
+        "name": "hit_date",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "规则命中日期",
+        "cn": "规则命中日期"
+      },
+      {
+        "name": "amount",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "涉及金额（元）",
+        "cn": "涉及金额"
+      },
+      {
+        "name": "status",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "处理状态 待处理/已排除/已上报",
+        "cn": "处理状态 待处理/已排除/已上报"
+      }
+    ]
+  },
+  "row_counts": {
+    "branches": 60,
+    "employees": 900,
+    "customers": 5000,
+    "accounts": 8000,
+    "transactions": 36097,
+    "loans": 4000,
+    "loan_repayments": 21614,
+    "overdue_records": 3646,
+    "credit_cards": 3000,
+    "card_statements": 9000,
+    "card_repayments": 9891,
+    "deposits_daily": 12000,
+    "wealth_products": 40,
+    "wealth_holdings": 5000,
+    "aml_alerts": 108
+  },
+  "table_comments": {
+    "branches": {
+      "cn": "机构网点",
+      "desc": "总行-分行-支行三级机构，业务归属与考核单元"
+    },
+    "employees": {
+      "cn": "员工",
+      "desc": "员工档案：柜员/客户经理及其所属机构"
+    },
+    "customers": {
+      "cn": "客户",
+      "desc": "个人/对公客户：风险等级、AUM、开户机构"
+    },
+    "accounts": {
+      "cn": "账户",
+      "desc": "活期/定期/对公结算账户：余额、利率、状态"
+    },
+    "transactions": {
+      "cn": "交易流水",
+      "desc": "账户交易明细：借贷方向、金额、渠道、冲正状态"
+    },
+    "loans": {
+      "cn": "贷款",
+      "desc": "贷款台账：类型、余额、利率、还款方式、核销状态"
+    },
+    "loan_repayments": {
+      "cn": "还款计划与实还",
+      "desc": "逐期应还本息与实际还款记录，用于算逾期"
+    },
+    "overdue_records": {
+      "cn": "逾期与五级分类",
+      "desc": "逾期天数(DPD)与五级分类，不良率计算的来源"
+    },
+    "credit_cards": {
+      "cn": "信用卡",
+      "desc": "信用卡额度与账期信息"
+    },
+    "card_statements": {
+      "cn": "信用卡账单",
+      "desc": "每期账单金额、最低还款、已还金额"
+    },
+    "card_repayments": {
+      "cn": "信用卡还款明细",
+      "desc": "单张账单的分次还款记录"
+    },
+    "deposits_daily": {
+      "cn": "存款日终快照",
+      "desc": "账户每日日终余额，用于计算日均存款"
+    },
+    "wealth_products": {
+      "cn": "理财产品",
+      "desc": "理财产品：风险等级、期限、预期收益率"
+    },
+    "wealth_holdings": {
+      "cn": "理财持仓",
+      "desc": "客户持仓：买入金额、赎回日期（空=持有中）"
+    },
+    "aml_alerts": {
+      "cn": "反洗钱预警",
+      "desc": "可疑交易预警：命中规则、金额、处理状态"
+    }
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "scene": "power",
+  "name": "电力·台区抄表日链路",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "source_mysql",
+      "title": "① 业务库取数（MySQL）",
+      "deps": [],
+      "expect": { "rowsExact": 5691 },
+      "code": "SELECT * FROM meter_readings WHERE period = '202403'"
+    },
+    {
+      "id": "n2",
+      "type": "sqoop_import",
+      "title": "② Sqoop 采集 → HDFS",
+      "deps": ["n1"],
+      "expect": { "rowsExact": 5691, "partCount": 4, "format": "parquet" },
+      "code": "sqoop import \\\n  --connect jdbc:mysql://localhost:3306/power \\\n  --username root --password bigdata123 \\\n  --table meter_readings \\\n  --where \"period = '202403'\" \\\n  --target-dir /user/hive/warehouse/ods.db/meter_readings/dt=202403 \\\n  --split-by reading_id \\\n  --num-mappers 4 \\\n  --as-parquetfile"
+    },
+    {
+      "id": "n3",
+      "type": "hive_create_table",
+      "title": "③ 建 ODS 外部表",
+      "deps": ["n2"],
+      "expect": { "hiveTable": "ods.meter_readings", "partitionKey": "dt", "format": "parquet", "locationMustExist": true },
+      "code": "CREATE EXTERNAL TABLE ods.meter_readings (\n  reading_id BIGINT COMMENT '抄表记录ID',\n  meter_id BIGINT COMMENT '计量点ID',\n  read_date STRING COMMENT '抄表日期',\n  period STRING COMMENT '账期',\n  read_type STRING COMMENT '抄表方式',\n  prev_total_kwh DOUBLE COMMENT '上期表底',\n  curr_total_kwh DOUBLE COMMENT '本期表底',\n  usage_kwh DOUBLE COMMENT '本期电量',\n  p_kwh DOUBLE COMMENT '有功电量',\n  q_kwh DOUBLE COMMENT '无功电量',\n  operator_id BIGINT COMMENT '抄表人'\n)\nCOMMENT '计量点抄表电量ODS层'\nPARTITIONED BY (dt STRING COMMENT '分区日期')\nSTORED AS PARQUET\nLOCATION '/user/hive/warehouse/ods.db/meter_readings'"
+    },
+    {
+      "id": "n4",
+      "type": "hive_create_table",
+      "title": "④ 建 DWD 明细表",
+      "deps": ["n2"],
+      "expect": { "hiveTable": "dwd.readings_di" },
+      "code": "CREATE EXTERNAL TABLE dwd.readings_di (\n  reading_id BIGINT COMMENT '抄表记录ID',\n  meter_id BIGINT COMMENT '计量点ID',\n  usage_kwh DOUBLE COMMENT '本期电量(已剔除估抄)'\n)\nCOMMENT '抄表明细DWD层'\nPARTITIONED BY (dt STRING COMMENT '分区日期')\nSTORED AS PARQUET\nLOCATION '/user/hive/warehouse/dwd.db/readings_di'"
+    },
+    {
+      "id": "n5",
+      "type": "hive_sql",
+      "title": "⑤ Hive SQL 加工（剔除估抄）",
+      "deps": ["n3", "n4"],
+      "expect": { "rowsExact": 5209 },
+      "code": "INSERT OVERWRITE TABLE dwd.readings_di PARTITION (dt='202403')\nSELECT reading_id, meter_id, usage_kwh\nFROM ods.meter_readings\nWHERE dt = '202403' AND read_type <> '估抄'"
+    },
+    {
+      "id": "n6",
+      "type": "data_quality",
+      "title": "⑥ 数据质量校验（电量不能为负）",
+      "deps": ["n5"],
+      "expect": { "rule": "电量不能为负（换表导致表底跳变）", "badRows": 0 },
+      "code": "SELECT COUNT(*) FROM dwd.readings_di WHERE dt='202403' AND usage_kwh < 0"
+    },
+    {
+      "id": "n7",
+      "type": "export_mysql",
+      "title": "⑦ 回写报表库",
+      "deps": ["n5"],
+      "expect": { "table": "rpt_readings_di", "rowsExact": 5209 },
+      "code": "sqoop export \\\n  --connect jdbc:mysql://localhost:3306/report \\\n  --username root --password bigdata123 \\\n  --table rpt_readings_di \\\n  --export-dir /user/hive/warehouse/dwd.db/readings_di/dt=202403"
+    },
+    {
+      "id": "n8",
+      "type": "dag_schedule",
+      "title": "⑧ 每日 08:00 调度编排",
+      "deps": ["n7"],
+      "expect": { "taskCount": 5, "cron": "0 8 * * *", "deps": [["t1_source", "t2_sqoop"], ["t4_dwd", "t5_export"]] },
+      "code": "{\n  \"dag\": {\n    \"name\": \"meter_readings_daily\",\n    \"schedule\": \"0 8 * * *\",\n    \"tasks\": [\n      { \"id\": \"t1_source\", \"type\": \"source_mysql\", \"deps\": [] },\n      { \"id\": \"t2_sqoop\", \"type\": \"sqoop_import\", \"deps\": [\"t1_source\"] },\n      { \"id\": \"t3_ods\", \"type\": \"hive_create_table\", \"deps\": [\"t2_sqoop\"] },\n      { \"id\": \"t4_dwd\", \"type\": \"hive_sql\", \"deps\": [\"t3_ods\"] },\n      { \"id\": \"t5_export\", \"type\": \"export_mysql\", \"deps\": [\"t4_dwd\"] }\n    ]\n  }\n}"
+    }
+  ]
+}

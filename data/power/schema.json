@@ -1,0 +1,1012 @@
+{
+  "scene": "power",
+  "generated_from": "power.sqlite",
+  "table_count": 15,
+  "tables": {
+    "bills": [
+      {
+        "name": "bill_id",
+        "type": "integer",
+        "pk": true,
+        "notnull": false,
+        "comment": "账单ID",
+        "cn": "账单ID"
+      },
+      {
+        "name": "customer_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "用户ID",
+        "cn": "用户ID"
+      },
+      {
+        "name": "meter_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "计量点ID",
+        "cn": "计量点ID"
+      },
+      {
+        "name": "period",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "账期YYYYMM",
+        "cn": "账期YYYYMM"
+      },
+      {
+        "name": "usage_kwh",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "计费电量(kWh)",
+        "cn": "计费电量"
+      },
+      {
+        "name": "energy_fee",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "电度电费(元)",
+        "cn": "电度电费"
+      },
+      {
+        "name": "basic_fee",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "基本电费(元，大工业按容量计)",
+        "cn": "基本电费"
+      },
+      {
+        "name": "pf_fee",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "力率调整电费(元，可为负=奖励)",
+        "cn": "力率调整电费"
+      },
+      {
+        "name": "additional_fee",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "附加费(元)",
+        "cn": "附加费"
+      },
+      {
+        "name": "total_fee",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "应收总额(元)",
+        "cn": "应收总额"
+      },
+      {
+        "name": "paid_amount",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "已收金额(元)",
+        "cn": "已收金额"
+      },
+      {
+        "name": "pay_status",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "缴费状态：未缴/已缴/部分缴纳/欠费（约2%欠费但状态为已缴）",
+        "cn": "缴费状态"
+      },
+      {
+        "name": "bill_date",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "出账日期",
+        "cn": "出账日期"
+      },
+      {
+        "name": "due_date",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "应交截止日",
+        "cn": "应交截止日"
+      },
+      {
+        "name": "paid_date",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "实交日期",
+        "cn": "实交日期"
+      }
+    ],
+    "customers": [
+      {
+        "name": "customer_id",
+        "type": "integer",
+        "pk": true,
+        "notnull": false,
+        "comment": "用户ID",
+        "cn": "用户ID"
+      },
+      {
+        "name": "cust_no",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "用户编号(10位)",
+        "cn": "用户编号"
+      },
+      {
+        "name": "cust_name",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "用户名称",
+        "cn": "用户名称"
+      },
+      {
+        "name": "cust_type",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "用户类别：居民/一般工商业/大工业/农业生产/非居民",
+        "cn": "用户类别"
+      },
+      {
+        "name": "industry_code",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "行业分类码（约24%为空）",
+        "cn": "行业分类码"
+      },
+      {
+        "name": "transformer_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "所属配变台区",
+        "cn": "所属配变台区"
+      },
+      {
+        "name": "address",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "用电地址",
+        "cn": "用电地址"
+      },
+      {
+        "name": "status",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "状态：在运/暂停/销户（销户后可能仍有历史电量）",
+        "cn": "状态"
+      },
+      {
+        "name": "archive_date",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "建档日期",
+        "cn": "建档日期"
+      },
+      {
+        "name": "is_vip",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "是否VIP用户",
+        "cn": "是否VIP用户"
+      }
+    ],
+    "employees": [
+      {
+        "name": "emp_id",
+        "type": "integer",
+        "pk": true,
+        "notnull": false,
+        "comment": "员工ID",
+        "cn": "员工ID"
+      },
+      {
+        "name": "emp_name",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "姓名",
+        "cn": "姓名"
+      },
+      {
+        "name": "org_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "所属单位",
+        "cn": "所属单位"
+      },
+      {
+        "name": "position",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "岗位：抄表员/抢修工/客户经理等",
+        "cn": "岗位"
+      },
+      {
+        "name": "hire_date",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "入职日期",
+        "cn": "入职日期"
+      }
+    ],
+    "lines": [
+      {
+        "name": "line_id",
+        "type": "integer",
+        "pk": true,
+        "notnull": false,
+        "comment": "线路ID",
+        "cn": "线路ID"
+      },
+      {
+        "name": "line_name",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "线路名称",
+        "cn": "线路名称"
+      },
+      {
+        "name": "station_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "所属变电站",
+        "cn": "所属变电站"
+      },
+      {
+        "name": "voltage_level",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "电压等级",
+        "cn": "电压等级"
+      },
+      {
+        "name": "length_km",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "线路长度(km)",
+        "cn": "线路长度"
+      },
+      {
+        "name": "status",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "状态",
+        "cn": "状态"
+      }
+    ],
+    "load_curve_96": [
+      {
+        "name": "meter_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "计量点ID",
+        "cn": "计量点ID"
+      },
+      {
+        "name": "data_date",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "数据日期",
+        "cn": "数据日期"
+      },
+      {
+        "name": "point_index",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "采样点序号1-96（15分钟一点）",
+        "cn": "采样点序号1-96"
+      },
+      {
+        "name": "p_kw",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "有功功率(kW)",
+        "cn": "有功功率"
+      },
+      {
+        "name": "q_kvar",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "无功功率(kvar)【约3%的天数有采集失败缺采样点】",
+        "cn": "无功功率"
+      }
+    ],
+    "meter_readings": [
+      {
+        "name": "reading_id",
+        "type": "integer",
+        "pk": true,
+        "notnull": false,
+        "comment": "抄表记录ID",
+        "cn": "抄表记录ID"
+      },
+      {
+        "name": "meter_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "计量点ID",
+        "cn": "计量点ID"
+      },
+      {
+        "name": "read_date",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "抄表日期（每月1-25号漂移）",
+        "cn": "抄表日期"
+      },
+      {
+        "name": "period",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "账期YYYYMM",
+        "cn": "账期YYYYMM"
+      },
+      {
+        "name": "read_type",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "抄表方式：抄见/估抄/远抄（估抄约8%）",
+        "cn": "抄表方式"
+      },
+      {
+        "name": "prev_total_kwh",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "上期表底(kWh)",
+        "cn": "上期表底"
+      },
+      {
+        "name": "curr_total_kwh",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "本期表底(kWh)",
+        "cn": "本期表底"
+      },
+      {
+        "name": "usage_kwh",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "本期电量(kWh)【注意：约2%记录因换表导致表底不连续，curr-prev会得到负数】",
+        "cn": "本期电量"
+      },
+      {
+        "name": "p_kwh",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "有功电量(kWh)",
+        "cn": "有功电量"
+      },
+      {
+        "name": "q_kwh",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "无功电量(kvarh)",
+        "cn": "无功电量"
+      },
+      {
+        "name": "operator_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "抄表人",
+        "cn": "抄表人"
+      }
+    ],
+    "meters": [
+      {
+        "name": "meter_id",
+        "type": "integer",
+        "pk": true,
+        "notnull": false,
+        "comment": "计量点ID",
+        "cn": "计量点ID"
+      },
+      {
+        "name": "customer_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "用户ID",
+        "cn": "用户ID"
+      },
+      {
+        "name": "asset_no",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "资产编号",
+        "cn": "资产编号"
+      },
+      {
+        "name": "meter_model",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "表计型号",
+        "cn": "表计型号"
+      },
+      {
+        "name": "ct_ratio",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "CT电流互感器倍率（漏乘会导致电量偏小数十倍）",
+        "cn": "CT电流互感器倍率"
+      },
+      {
+        "name": "install_date",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "安装日期",
+        "cn": "安装日期"
+      },
+      {
+        "name": "status",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "状态：运行/故障/拆除",
+        "cn": "状态"
+      },
+      {
+        "name": "last_verify_date",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "最近检定日期",
+        "cn": "最近检定日期"
+      }
+    ],
+    "org_units": [
+      {
+        "name": "org_id",
+        "type": "integer",
+        "pk": true,
+        "notnull": false,
+        "comment": "供电单位ID",
+        "cn": "供电单位ID"
+      },
+      {
+        "name": "org_name",
+        "type": "text",
+        "pk": false,
+        "notnull": true,
+        "comment": "单位名称",
+        "cn": "单位名称"
+      },
+      {
+        "name": "parent_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "上级单位ID（四级层级）",
+        "cn": "上级单位ID"
+      },
+      {
+        "name": "org_level",
+        "type": "integer",
+        "pk": false,
+        "notnull": true,
+        "comment": "层级：1省 2市 3县 4供电所",
+        "cn": "层级"
+      },
+      {
+        "name": "city",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "所属地市",
+        "cn": "所属地市"
+      },
+      {
+        "name": "is_active",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "是否有效",
+        "cn": "是否有效"
+      }
+    ],
+    "outages": [
+      {
+        "name": "outage_id",
+        "type": "integer",
+        "pk": true,
+        "notnull": false,
+        "comment": "停电事件ID",
+        "cn": "停电事件ID"
+      },
+      {
+        "name": "transformer_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "配变台区ID",
+        "cn": "配变台区ID"
+      },
+      {
+        "name": "start_time",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "停电开始时间",
+        "cn": "停电开始时间"
+      },
+      {
+        "name": "end_time",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "恢复时间",
+        "cn": "恢复时间"
+      },
+      {
+        "name": "reason",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "原因：计划检修/故障/限电/用户申请",
+        "cn": "原因"
+      },
+      {
+        "name": "affected_customers",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "影响户数",
+        "cn": "影响户数"
+      },
+      {
+        "name": "restore_minutes",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "停电时长(分钟)",
+        "cn": "停电时长"
+      }
+    ],
+    "payments": [
+      {
+        "name": "payment_id",
+        "type": "integer",
+        "pk": true,
+        "notnull": false,
+        "comment": "缴费流水ID",
+        "cn": "缴费流水ID"
+      },
+      {
+        "name": "bill_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "账单ID",
+        "cn": "账单ID"
+      },
+      {
+        "name": "customer_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "用户ID",
+        "cn": "用户ID"
+      },
+      {
+        "name": "amount",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "缴费金额(元)",
+        "cn": "缴费金额"
+      },
+      {
+        "name": "method",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "缴费渠道：支付宝/微信/银行代扣/柜面/网银",
+        "cn": "缴费渠道"
+      },
+      {
+        "name": "paid_at",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "到账时间",
+        "cn": "到账时间"
+      },
+      {
+        "name": "status",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "状态：成功/失败/处理中",
+        "cn": "状态"
+      }
+    ],
+    "stations": [
+      {
+        "name": "station_id",
+        "type": "integer",
+        "pk": true,
+        "notnull": false,
+        "comment": "变电站ID",
+        "cn": "变电站ID"
+      },
+      {
+        "name": "station_name",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "变电站名称",
+        "cn": "变电站名称"
+      },
+      {
+        "name": "org_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "所属供电单位",
+        "cn": "所属供电单位"
+      },
+      {
+        "name": "voltage_level",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "电压等级(kV)",
+        "cn": "电压等级"
+      },
+      {
+        "name": "capacity_mva",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "主变容量(MVA，3%为空)",
+        "cn": "主变容量"
+      },
+      {
+        "name": "commission_date",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "投运日期",
+        "cn": "投运日期"
+      },
+      {
+        "name": "status",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "状态：在运/停运/退役",
+        "cn": "状态"
+      }
+    ],
+    "tariff": [
+      {
+        "name": "tariff_id",
+        "type": "integer",
+        "pk": true,
+        "notnull": false,
+        "comment": "电价ID",
+        "cn": "电价ID"
+      },
+      {
+        "name": "cust_type",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "用户类别",
+        "cn": "用户类别"
+      },
+      {
+        "name": "tier_no",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "阶梯档位",
+        "cn": "阶梯档位"
+      },
+      {
+        "name": "lower_kwh",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "本档下限(kWh)",
+        "cn": "本档下限"
+      },
+      {
+        "name": "upper_kwh",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "本档上限(kWh，NULL=不限)",
+        "cn": "本档上限"
+      },
+      {
+        "name": "price",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "电价(元/kWh)",
+        "cn": "电价"
+      }
+    ],
+    "transformer_supply": [
+      {
+        "name": "transformer_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "配变台区ID",
+        "cn": "配变台区ID"
+      },
+      {
+        "name": "period",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "账期YYYYMM",
+        "cn": "账期YYYYMM"
+      },
+      {
+        "name": "supply_kwh",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "台区总表供电量(kWh)【线损率=(供电量-售电量)/供电量，约4%台区为负=异常】",
+        "cn": "台区总表供电量"
+      },
+      {
+        "name": "read_type",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "抄表方式",
+        "cn": "抄表方式"
+      }
+    ],
+    "transformers": [
+      {
+        "name": "transformer_id",
+        "type": "integer",
+        "pk": true,
+        "notnull": false,
+        "comment": "配变台区ID",
+        "cn": "配变台区ID"
+      },
+      {
+        "name": "transformer_name",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "台区名称",
+        "cn": "台区名称"
+      },
+      {
+        "name": "line_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "所属线路",
+        "cn": "所属线路"
+      },
+      {
+        "name": "capacity_kva",
+        "type": "real",
+        "pk": false,
+        "notnull": false,
+        "comment": "配变容量(kVA)",
+        "cn": "配变容量"
+      },
+      {
+        "name": "status",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "状态：在运/停运/退役",
+        "cn": "状态"
+      },
+      {
+        "name": "install_date",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "投运日期",
+        "cn": "投运日期"
+      }
+    ],
+    "work_orders": [
+      {
+        "name": "order_id",
+        "type": "integer",
+        "pk": true,
+        "notnull": false,
+        "comment": "工单ID",
+        "cn": "工单ID"
+      },
+      {
+        "name": "customer_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "用户ID",
+        "cn": "用户ID"
+      },
+      {
+        "name": "order_type",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "类型：报修/咨询/投诉/装表/过户/缴费查询",
+        "cn": "类型"
+      },
+      {
+        "name": "org_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "受理单位",
+        "cn": "受理单位"
+      },
+      {
+        "name": "create_time",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "受理时间",
+        "cn": "受理时间"
+      },
+      {
+        "name": "accept_time",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "派单时间",
+        "cn": "派单时间"
+      },
+      {
+        "name": "finish_time",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "完工时间（约0.5%记录早于受理时间=脏数据）",
+        "cn": "完工时间"
+      },
+      {
+        "name": "status",
+        "type": "text",
+        "pk": false,
+        "notnull": false,
+        "comment": "状态",
+        "cn": "状态"
+      },
+      {
+        "name": "handler_id",
+        "type": "integer",
+        "pk": false,
+        "notnull": false,
+        "comment": "处理人",
+        "cn": "处理人"
+      }
+    ]
+  },
+  "row_counts": {
+    "bills": 22942,
+    "customers": 6000,
+    "employees": 1500,
+    "lines": 800,
+    "load_curve_96": 59461,
+    "meter_readings": 22764,
+    "meters": 6000,
+    "org_units": 200,
+    "outages": 4000,
+    "payments": 18207,
+    "stations": 300,
+    "tariff": 7,
+    "transformer_supply": 10240,
+    "transformers": 3000,
+    "work_orders": 12000
+  },
+  "table_comments": {
+    "org_units": {
+      "cn": "供电单位",
+      "desc": "省-市-县-供电所四级组织架构，用于统计口径归属"
+    },
+    "stations": {
+      "cn": "变电站",
+      "desc": "变电站档案：电压等级、主变容量、投运日期"
+    },
+    "lines": {
+      "cn": "线路",
+      "desc": "输电/配电线路档案，归属变电站"
+    },
+    "transformers": {
+      "cn": "配变台区",
+      "desc": "配变台区（线损考核的最小单元），归属线路"
+    },
+    "employees": {
+      "cn": "员工",
+      "desc": "员工档案：岗位（抄表员/抢修工/客户经理等）"
+    },
+    "customers": {
+      "cn": "用户档案",
+      "desc": "用电客户档案：用户类别、行业、所属台区、在运状态"
+    },
+    "meters": {
+      "cn": "计量点(电能表)",
+      "desc": "电能表档案，含 CT 倍率——抄见电量需乘倍率才是实际电量"
+    },
+    "meter_readings": {
+      "cn": "抄表电量",
+      "desc": "按月抄见的电量记录，含抄见/估抄/远抄三种方式"
+    },
+    "bills": {
+      "cn": "电费账单",
+      "desc": "月度电费账单：电度电费+基本电费+力率调整电费"
+    },
+    "payments": {
+      "cn": "缴费流水",
+      "desc": "用户缴费记录，含渠道与到账状态"
+    },
+    "outages": {
+      "cn": "停电事件",
+      "desc": "台区停电记录：起止时间、原因（计划/故障/限电）"
+    },
+    "work_orders": {
+      "cn": "服务工单",
+      "desc": "报修/咨询/投诉/装表等工单，含受理与完工时间"
+    },
+    "load_curve_96": {
+      "cn": "96点负荷曲线",
+      "desc": "每 15 分钟一个采样点的功率数据（96 点/天），用于峰谷分析"
+    },
+    "transformer_supply": {
+      "cn": "台区总表供电量",
+      "desc": "台区总表抄见电量，用于计算线损率"
+    },
+    "tariff": {
+      "cn": "电价表",
+      "desc": "目录电价：居民阶梯电价与各类别单价"
+    }
+  }
+}

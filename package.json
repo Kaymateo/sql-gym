@@ -1,0 +1,22 @@
+{
+  "name": "sql-gym",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "SQL 训练场 — 浏览器内的大数据 / 数据链路训练平台（仿真数据 + 代码校验引擎）",
+  "scripts": {
+    "gen:power": "python3 scripts/gen_power_data.py --size small",
+    "gen:power:full": "python3 scripts/gen_power_data.py --size full",
+    "gen:bank": "python3 scripts/gen_bank_data.py --size small",
+    "schema": "python3 scripts/dump_schema.py --scene power --db data/power/power.sqlite",
+    "test": "node --test \"tests/**/*.test.mjs\"",
+    "verify:web": "node scripts/verify_web.mjs",
+    "check:browser": "node scripts/check_browser.mjs",
+    "check:problems": "node scripts/check_problems.mjs",
+    "demo": "node scripts/demo_pipeline.mjs",
+    "serve": "node scripts/serve.mjs"
+  },
+  "dependencies": {
+    "sql.js": "1.10.3"
+  }
+}

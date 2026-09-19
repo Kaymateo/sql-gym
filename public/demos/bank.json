@@ -1,0 +1,70 @@
+{
+  "scene": "bank",
+  "name": "银行·交易流水日链路（含反洗钱质检）",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "source_mysql",
+      "title": "① 业务库取数（交易流水）",
+      "deps": [],
+      "expect": { "rowsExact": 6123 },
+      "code": "SELECT * FROM transactions WHERE txn_time >= '2026-06-01' AND txn_time < '2026-07-01'"
+    },
+    {
+      "id": "n2",
+      "type": "sqoop_import",
+      "title": "② Sqoop 采集 → HDFS（6 月分区）",
+      "deps": ["n1"],
+      "expect": { "rowsExact": 6123, "partCount": 6, "format": "parquet", "sourceTable": "transactions" },
+      "code": "sqoop import \\\n  --connect jdbc:mysql://localhost:3306/bank \\\n  --username root --password bigdata123 \\\n  --table transactions \\\n  --where \"txn_time >= '2026-06-01' AND txn_time < '2026-07-01'\" \\\n  --target-dir /user/hive/warehouse/ods.db/transactions/dt=202606 \\\n  --split-by txn_id \\\n  --num-mappers 6 \\\n  --as-parquetfile"
+    },
+    {
+      "id": "n3",
+      "type": "hive_create_table",
+      "title": "③ 建 ODS 交易流水表",
+      "deps": ["n2"],
+      "expect": { "hiveTable": "ods.transactions", "partitionKey": "dt", "locationMustExist": true },
+      "code": "CREATE EXTERNAL TABLE ods.transactions (\n  txn_id BIGINT COMMENT '交易流水ID',\n  account_id BIGINT COMMENT '账户ID',\n  txn_time STRING COMMENT '交易时间(含时分秒)',\n  value_date STRING COMMENT '记账日期(可能与交易日期跨日)',\n  direction STRING COMMENT '借贷方向 D借/C贷',\n  amount DOUBLE COMMENT '交易金额(元)',\n  balance_after DOUBLE COMMENT '交易后余额(约4%与流水累加不一致)',\n  txn_type STRING COMMENT '交易类型',\n  channel STRING COMMENT '渠道',\n  counterparty_name STRING COMMENT '对手方名称(约20%为空)',\n  status STRING COMMENT '状态:成功/失败/冲正'\n)\nCOMMENT '交易流水ODS层'\nPARTITIONED BY (dt STRING COMMENT '分区日期')\nSTORED AS PARQUET\nLOCATION '/user/hive/warehouse/ods.db/transactions'"
+    },
+    {
+      "id": "n4",
+      "type": "hive_create_table",
+      "title": "④ 建 DWD 有效交易明细表",
+      "deps": ["n2"],
+      "expect": { "hiveTable": "dwd.transactions_di" },
+      "code": "CREATE EXTERNAL TABLE dwd.transactions_di (\n  txn_id BIGINT COMMENT '交易流水ID',\n  account_id BIGINT COMMENT '账户ID',\n  direction STRING COMMENT '借贷方向',\n  amount DOUBLE COMMENT '交易金额(已剔除冲正/失败)',\n  status STRING COMMENT '状态'\n)\nCOMMENT '有效交易明细DWD层'\nPARTITIONED BY (dt STRING COMMENT '分区日期')\nSTORED AS PARQUET\nLOCATION '/user/hive/warehouse/dwd.db/transactions_di'"
+    },
+    {
+      "id": "n5",
+      "type": "hive_sql",
+      "title": "⑤ 加工 DWD（剔除冲正/失败交易）",
+      "deps": ["n3", "n4"],
+      "expect": { "rowsExact": 5965 },
+      "code": "INSERT OVERWRITE TABLE dwd.transactions_di PARTITION (dt='202606')\nSELECT txn_id, account_id, direction, amount, status\nFROM ods.transactions\nWHERE dt = '202606' AND status NOT IN ('冲正', '失败')"
+    },
+    {
+      "id": "n6",
+      "type": "data_quality",
+      "title": "⑥ 数据质量校验（金额为负=数据接入错误）",
+      "deps": ["n5"],
+      "expect": { "rule": "交易金额不能为负", "badRows": 19 },
+      "code": "SELECT COUNT(*) FROM dwd.transactions_di WHERE dt='202606' AND amount < 0"
+    },
+    {
+      "id": "n7",
+      "type": "export_mysql",
+      "title": "⑦ 回写报表库",
+      "deps": ["n5"],
+      "expect": { "table": "rpt_transactions_di", "rowsExact": 5965 },
+      "code": "sqoop export \\\n  --connect jdbc:mysql://localhost:3306/report \\\n  --username root --password bigdata123 \\\n  --table rpt_transactions_di \\\n  --export-dir /user/hive/warehouse/dwd.db/transactions_di/dt=202606"
+    },
+    {
+      "id": "n8",
+      "type": "dag_schedule",
+      "title": "⑧ 每日 03:00 调度编排",
+      "deps": ["n7"],
+      "expect": { "taskCount": 5, "cron": "0 3 * * *", "deps": [["t1_source", "t2_sqoop"], ["t4_dwd", "t5_export"]] },
+      "code": "{\n  \"dag\": {\n    \"name\": \"bank_txn_daily\",\n    \"schedule\": \"0 3 * * *\",\n    \"tasks\": [\n      { \"id\": \"t1_source\", \"type\": \"source_mysql\", \"deps\": [] },\n      { \"id\": \"t2_sqoop\", \"type\": \"sqoop_import\", \"deps\": [\"t1_source\"] },\n      { \"id\": \"t3_ods\", \"type\": \"hive_create_table\", \"deps\": [\"t2_sqoop\"] },\n      { \"id\": \"t4_dwd\", \"type\": \"hive_sql\", \"deps\": [\"t3_ods\"] },\n      { \"id\": \"t5_export\", \"type\": \"export_mysql\", \"deps\": [\"t4_dwd\"] }\n    ]\n  }\n}"
+    }
+  ]
+}
